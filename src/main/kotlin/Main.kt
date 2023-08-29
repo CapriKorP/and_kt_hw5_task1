@@ -1,7 +1,32 @@
-fun main(args: Array<String>) {
-    println("Hello World!")
+import online.kornienkov.classes.Post
+import online.kornienkov.classes.Likes
+import online.kornienkov.classes.WallService
+import online.kornienkov.classes.Date
 
-    // Try adding program arguments via Run/Debug configuration.
-    // Learn more about running applications: https://www.jetbrains.com/help/idea/running-applications.html.
-    println("Program arguments: ${args.joinToString()}")
+fun main() {
+    val post = Post(1,
+        1,
+        2,
+        Date(1,1,2023),
+        "Hello",
+        true,
+        "good",
+        true,
+        true,
+        true,
+        true,
+        Likes(1,true,true,true)
+    )
+
+
+    WallService.add(post)
+    println(post)
+
+    WallService.add(post)
+    println(post)
+
+    WallService.update(post){
+        if(post)
+    }
+
 }
