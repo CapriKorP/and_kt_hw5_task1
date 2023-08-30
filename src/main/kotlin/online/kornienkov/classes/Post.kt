@@ -1,3 +1,5 @@
+import java.lang.NullPointerException
+
 data class Post(
 
     var id: Int = 0,                                   //Идентификатор записи.
@@ -41,10 +43,9 @@ object WallService {
     }
 
     fun update(updatePost: Post): Boolean {
-        for ((index, post) in posts.withIndex()){
-            if(post.id == updatePost.id) {
-                post.text = updatePost.text
-                posts[index] = post.copy()
+        for ((index, post) in posts.withIndex()) {
+            if (post.id == updatePost.id) {
+                posts[index] = post.copy(text = updatePost.text)
                 return true
             }
         }
@@ -54,6 +55,14 @@ object WallService {
     fun clear() {
         posts = emptyArray()
         count = 0
+    }
+
+    fun see(num: Int): Post {
+        if (num < 1) {
+            return posts.last()
+        } else {
+            return posts[num - 1]
+        }
     }
 }
 

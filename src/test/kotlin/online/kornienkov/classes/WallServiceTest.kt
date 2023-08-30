@@ -18,10 +18,11 @@ class WallServiceTest {
     var post = Post(1,1,1,1,1,"Hello",1,1,false,Comments(),Likes())
     var postCopy = Post(1,1,1,1,2,"Hello world",1,1,false,Comments(),Likes())
     var postError = Post(2,1,1,1,2,"Hello world",1,1,false,Comments(),Likes())
+
     @Test
     fun add() {
-        WallService.add(post)
-        assertEquals(1,post.id)
+        var actual = WallService.add(post).id
+        assertEquals(1,actual)
     }
 
     @Test
