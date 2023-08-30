@@ -10,8 +10,8 @@ data class Post(
     var replyPostId: Int,                           //Идентификатор записи, в ответ на которую была оставлена текущая.
     var friendsOnly: Boolean = false,                //true если запись была создана с опцией «Только для друзей».
     val comments: Comments,                         //Информация о комментариях к записи, объект с полями.
-    val likes: Likes                                //Информация о лайках к записи, объект с полями
-    val
+    val likes: Likes,                                //Информация о лайках к записи, объект с полями
+    //val reports: Reports
 
 )
 
