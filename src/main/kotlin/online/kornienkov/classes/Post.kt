@@ -1,38 +1,59 @@
-package online.kornienkov.classes
-
 data class Post(
-    var id: Int, //id поста
-    var ownerId: Long, //id владельца стены
-    var fromId: Long, //id автора
-    var date: Long, //дата поста в формате Unix
-    var text: String, //текст поста(долден быть в массиве
-    var friendOnly: Boolean, //доступен только для друзей
-    var postType: String, //тип поста
-    var canPin: Boolean, // может ли пользователь закрепить пост
-    var canDelete: Boolean, //можно ли удалить пост
-    var canEdit: Boolean,//можно ли править пост
-    var isPinned: Boolean, //пост закреплен
-    val likes: Likes,
+
+    var id: Int = 0,                                   //Идентификатор записи.
+    var owner_id: Int,                              //Идентификатор владельца стены, на которой размещена запись.
+    var fromId: Int,                                //Идентификатор автора записи (от чьего имени опубликована запись).
+    var created_by: Int,                            //Идентификатор администратора, который опубликовал запись (возвращается только для сообществ при запросе с ключом доступа администратора). Возвращается в записях, опубликованных менее 24 часов назад.
+    var Date: Int,                                  //Время публикации записи в формате unixtime.
+    var text: String,                               //Текст записи.
+    var replyOwnerId: Int,                          //Идентификатор владельца записи, в ответ на которую была оставлена текущая.
+    var replyPostId: Int,                           //Идентификатор записи, в ответ на которую была оставлена текущая.
+    var friendsOnly: Boolean = false,                //true если запись была создана с опцией «Только для друзей».
+    val comments: Comments,                         //Информация о комментариях к записи, объект с полями.
+    val likes: Likes
+)
+
+class Comments(
+    var count: Int = 0,                                  //количество комментариев
+    var canPost: Boolean = true,                            //информация о том, может ли текущий пользователь комментировать запись (true — может, false — не может);
+    var groupsCanPost: Boolean = true,                      //информация о том, могут ли сообщества комментировать запись
+    var canClose: Boolean = false,                            // может ли текущий пользователь закрыть комментарии к записи
+    var canOpen: Boolean = false                              // может ли текущий пользователь открыть комментарии к записи
+)
+
+class Likes(
+    var count: Int = 0,                            //число пользователей, которым понравилась запись;
+    var userLikes: Boolean = true,                  //наличие отметки «Мне нравится» от текущего пользователя
+    var like: Boolean = true,                       //информация о том, может ли текущий пользователь поставить отметку «Мне нравится»
+    var canPublish: Boolean = true                  //информация о том, может ли текущий пользователь сделать репост записи
 )
 
 object WallService {
 
-    private var postsArray = emptyArray<Post>() //инициалиpируем пустой массив
-    private var count = 0
 
-    fun add(post: Post): Post { //
-        postsArray += post.copy(id = count++)
-        return postsArray.last()
+    private var posts = emptyArray<Post>()
+    private var count = 0
+    fun add(post: Post): Post {
+        count++
+        posts += post.copy(id = count)
+        return posts.last()
+
     }
 
     fun update(updatePost: Post): Boolean {
-        for ((index, post) in postsArray.withIndex()) {
+        for ((index, post) in posts.withIndex()){
             if(post.id == updatePost.id) {
                 post.text = updatePost.text
+                posts[index] = post.copy()
                 return true
             }
         }
         return false
     }
 
+    fun clear() {
+        posts = emptyArray()
+        count = 0
+    }
 }
+
