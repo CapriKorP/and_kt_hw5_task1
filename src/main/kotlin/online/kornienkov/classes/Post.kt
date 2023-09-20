@@ -1,5 +1,7 @@
-data class Post(
 
+import online.kornienkov.classes.Attachments
+
+data class Post(
     var id: Int = 0,                                //Идентификатор записи.
     var owner_id: Int = 324534,                              //Идентификатор владельца стены, на которой размещена запись.
     var fromId: Int = 435345,                                //Идентификатор автора записи (от чьего имени опубликована запись).
@@ -21,9 +23,11 @@ data class Post(
     var canEdit: Boolean = true,                           //Информация о том, может ли текущий пользователь редактировать запись
     var isPinned: Boolean = true,                          //Информация о том, что запись закреплена.
     var markedAsAds: Boolean = true,                       //Информация о том, содержит ли запись отметку «реклама»
-    var isFavirite: Boolean = true,                        //true, если объект добавлен в закладки у текущего пользователя.
-    var postponedId: Int = 234245                            //Идентификатор отложенной записи. Это поле возвращается тогда, когда запись стояла на таймере.
-)
+    var isFavorite: Boolean = true,                        //true, если объект добавлен в закладки у текущего пользователя.
+    var postponedId: Int = 234245, //Идентификатор отложенной записи. Это поле возвращается тогда, когда запись стояла на таймере.
+    val donut: Donut,
+    val attachments: Array<Attachments> = emptyArray()
+    )
 
 class Comments(
     var count: Int = 0,                             //количество комментариев
@@ -53,6 +57,16 @@ class Geo(
     var type: String = "Home",                               //тип места
     var coordinates: String = "N 363636, E 545454",           //координаты места;
     val place:Place                                 //описание места (если оно добавлено)
+)
+
+class Donut (
+    var isDonut: Boolean = true,               //запись доступна только платным подписчикам VK Donut.
+    var paidDuration: Int = 32546,               //время, в течение которого запись будет доступна только платным подписчикам VK Donut.
+    var placeholder: String = "Заглушка",        //заглушка для пользователей, которые не оформили подписку VK Donut. Отображается вместо содержимого записи.
+    var canPublishFreeCopy: Boolean = true,      //можно ли открыть запись для всех пользователей, а не только подписчиков VK Donut.
+    var editMode: String = "All"                //информация о том, какие значения VK Donut можно изменить в записи. Возможные значения:
+                            //all — всю информацию о VK Donut.
+                            //duration — время, в течение которого запись будет доступна только платным подписчикам VK Donut.
 )
 
 
