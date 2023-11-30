@@ -8,4 +8,5 @@ fun main() {
     println(WallService.add(post))
     println(WallService.update(postCopy))
     println(WallService.see(1))
+    WallService.createComment(1,Comments(1,true,true,true,true))
 }

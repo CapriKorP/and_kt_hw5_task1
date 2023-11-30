@@ -1,5 +1,7 @@
 import java.lang.NullPointerException
+import javax.xml.stream.events.Comment
 
+class PostNotFoundException(message: String) : RuntimeException(message)
 data class Post(
 
     var id: Int = 0,                                   //Идентификатор записи.
@@ -32,9 +34,10 @@ class Likes(
 
 object WallService {
 
-
-    private var posts = emptyArray<Post>()
     private var count = 0
+    private var posts = emptyArray<Post>()
+    private var comments = emptyArray<Comments>()
+
     fun add(post: Post): Post {
         count++
         posts += post.copy(id = count)
@@ -64,5 +67,14 @@ object WallService {
             return posts[num - 1]
         }
     }
-}
 
+    fun createComment(postId:Int, comment: Comments): Comments {
+        for (post in posts) {
+            if (post.id == postId) {
+                comments += comment
+                return comments.last()
+            }
+        }
+        throw PostNotFoundException("Post id $postId not found")
+    }
+}
