@@ -40,7 +40,9 @@ class WallServiceTest {
 
     @Test
     fun createComment() {
-        val postId = 1
+        WallService.add(post)
+        WallService.createComment(1, comment)
+        var postId = 1
         var comments = emptyArray<Comments>()
         if (post.id == postId){
             comments += comment
