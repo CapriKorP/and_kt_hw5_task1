@@ -20,6 +20,7 @@ class WallServiceTest {
     var postCopy = Post(1,1,1,1,2,"Hello world",1,1,false,Comments(),Likes())
     var postError = Post(2,1,1,1,2,"Hello world",1,1,false,Comments(),Likes())
     val comment = Comments(2,true,false,true,true)
+    var comments = emptyArray<Comments>()
     @Test
     fun add() {
         var actual = WallService.add(post).id
@@ -40,10 +41,9 @@ class WallServiceTest {
 
     @Test
     fun createComment() {
+        val postId = 1
         WallService.add(post)
-        WallService.createComment(1, comment)
-        var postId = 1
-        var comments = emptyArray<Comments>()
+        WallService.createComment(postId, comment)
         if (post.id == postId){
             comments += comment
         }
