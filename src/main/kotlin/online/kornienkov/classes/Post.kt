@@ -1,6 +1,3 @@
-import java.lang.NullPointerException
-import javax.xml.stream.events.Comment
-
 class PostNotFoundException(message: String) : RuntimeException(message)
 data class Post(
 
@@ -17,12 +14,13 @@ data class Post(
     val likes: Likes
 )
 
-class Comments(
-    var count: Int = 0,                                  //количество комментариев
-    var canPost: Boolean = true,                            //информация о том, может ли текущий пользователь комментировать запись (true — может, false — не может);
-    var groupsCanPost: Boolean = true,                      //информация о том, могут ли сообщества комментировать запись
-    var canClose: Boolean = false,                            // может ли текущий пользователь закрыть комментарии к записи
-    var canOpen: Boolean = false                              // может ли текущий пользователь открыть комментарии к записи
+data class Comments(
+    val id: Int,
+    var count: Int = 0,
+    var canPost: Boolean = true,
+    var groupsCanPost: Boolean = true,
+    var canClose: Boolean = false,
+    var canOpen: Boolean = false
 )
 
 class Likes(
@@ -68,7 +66,7 @@ object WallService {
         }
     }
 
-    fun createComment(postId:Int, comment: Comments): Comments {
+    fun createComment(postId: Int, comment: Comments): Comments {
         for (post in posts) {
             if (post.id == postId) {
                 comments += comment

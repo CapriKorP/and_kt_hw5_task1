@@ -16,11 +16,10 @@ class WallServiceTest {
         WallService.clear()
     }
 
-    var post = Post(1,1,1,1,1,"Hello",1,1,false,Comments(),Likes())
-    var postCopy = Post(1,1,1,1,2,"Hello world",1,1,false,Comments(),Likes())
-    var postError = Post(2,1,1,1,2,"Hello world",1,1,false,Comments(),Likes())
-    val comment = Comments(2,true,false,true,true)
-    var comments = emptyArray<Comments>()
+    var post = Post(1,1,1,1,1,"Hello",1,1,false,Comments(1),Likes())
+    var postCopy = Post(1,1,1,1,2,"Hello world",1,1,false,Comments(0),Likes())
+    var postError = Post(2,1,1,1,2,"Hello world",1,1,false,Comments(0),Likes())
+
     @Test
     fun add() {
         var actual = WallService.add(post).id
@@ -41,17 +40,13 @@ class WallServiceTest {
 
     @Test
     fun createComment() {
-        val postId = 1
-        WallService.add(post)
-        WallService.createComment(postId, comment)
-        if (post.id == postId){
-            comments += comment
-        }
-        assertEquals(1, comments.size)
+        val postId = WallService.add(post).id
+        val commentCreated = WallService.createComment(postId, Comments(155,1,true,false,true,true))
+        assertEquals(155, commentCreated.id)
     }
 
     @Test(expected = PostNotFoundException::class)
     fun shouldThrow() {
-        WallService.createComment(1,Comments(2,true,true,true,true))
+        WallService.createComment(1,Comments(2,1,true,true,true,true))
     }
 }
